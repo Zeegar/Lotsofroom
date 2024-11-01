@@ -210,4 +210,43 @@ describe('ControlFlow', () => {
         controlFlow.TriggerAlarm();
         expect(controlFlow.state).toBe('RequireManualReset');
     });
+
+    // Tests for new methods that read data from the Pico sensors
+    test('should read data from BME280 sensor', async () => {
+        const data = await controlFlow.bme280.readSensorData();
+        expect(data).toHaveProperty('temperature');
+        expect(data).toHaveProperty('humidity');
+    });
+
+    test('should read data from MH-Z19B sensor', async () => {
+        const data = await controlFlow.mhz19b.readCO2();
+        expect(data).toHaveProperty('co2');
+    });
+
+    test('should read data from water detection sensor', () => {
+        const waterDetected = controlFlow.waterSensor.readSync();
+        expect(waterDetected).toBe(0); // Assuming no water detected
+    });
+
+    // Tests for new methods that control the Pico relays
+    test('should control the fan relay', () => {
+        controlFlow.relayFan.writeSync(1);
+        expect(controlFlow.relayFan.readSync()).toBe(1);
+        controlFlow.relayFan.writeSync(0);
+        expect(controlFlow.relayFan.readSync()).toBe(0);
+    });
+
+    test('should control the humidifier relay', () => {
+        controlFlow.relayHum.writeSync(1);
+        expect(controlFlow.relayHum.readSync()).toBe(1);
+        controlFlow.relayHum.writeSync(0);
+        expect(controlFlow.relayHum.readSync()).toBe(0);
+    });
+
+    test('should control the heater relay', () => {
+        controlFlow.relayHeat.writeSync(1);
+        expect(controlFlow.relayHeat.readSync()).toBe(1);
+        controlFlow.relayHeat.writeSync(0);
+        expect(controlFlow.relayHeat.readSync()).toBe(0);
+    });
 });
