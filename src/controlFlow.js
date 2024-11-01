@@ -1,6 +1,16 @@
+const { BME280 } = require('bme280-sensor');
+const { MHZ19B } = require('mh-z19b-sensor');
+const { Gpio } = require('onoff');
+
 class ControlFlow {
     constructor() {
         this.state = 'SystemStartup';
+        this.bme280 = new BME280();
+        this.mhz19b = new MHZ19B();
+        this.waterSensor = new Gpio(26, 'in');
+        this.relayFan = new Gpio(2, 'out');
+        this.relayHum = new Gpio(3, 'out');
+        this.relayHeat = new Gpio(4, 'out');
     }
 
     transition(newState) {

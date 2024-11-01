@@ -26,3 +26,19 @@ The control flow of the system is implemented based on the state diagram defined
   - **RequireManualReset**: Sub-state indicating manual reset is required.
 
 The control flow is integrated into the codebase and ensures the system operates safely and efficiently.
+
+## Pico Control System
+
+The Pico control system is an integral part of the Lotsofroom project. It is responsible for interfacing with various sensors and controlling relays to maintain the optimal environment for mushroom cultivation.
+
+### Components
+
+- **Raspberry Pi Pico**: The main controller that interfaces with sensors and relays.
+- **BME280**: Sensor for measuring temperature and humidity.
+- **MH-Z19B**: CO2 sensor for monitoring air quality.
+- **Water Detection Sensor**: Sensor for detecting water presence.
+- **Relay Module**: Controls the fan, humidifier, and heater.
+
+### Diagram
+
+The Pico control system diagram is defined in `pico-control-system.mermaid`.
