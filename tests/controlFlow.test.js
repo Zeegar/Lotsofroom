@@ -131,4 +131,83 @@ describe('ControlFlow', () => {
         controlFlow.TriggerAlarm();
         expect(controlFlow.state).toBe('RequireManualReset');
     });
+
+    // New tests for additional methods and transitions
+    test('should transition from StartFAE to StopFAE', () => {
+        controlFlow.StartFAE();
+        expect(controlFlow.state).toBe('StopFAE');
+    });
+
+    test('should transition from StopFAE to HumidityControl', () => {
+        controlFlow.StopFAE();
+        expect(controlFlow.state).toBe('HumidityControl');
+    });
+
+    test('should transition from StartHumidifier to WaitHumidity', () => {
+        controlFlow.StartHumidifier();
+        expect(controlFlow.state).toBe('WaitHumidity');
+    });
+
+    test('should transition from StopHumidifier to WaitHumidity', () => {
+        controlFlow.StopHumidifier();
+        expect(controlFlow.state).toBe('WaitHumidity');
+    });
+
+    test('should transition from WaitHumidity to CheckHumidity after 5 minutes', (done) => {
+        jest.useFakeTimers();
+        controlFlow.WaitHumidity();
+        jest.advanceTimersByTime(300000); // 5 minutes
+        expect(controlFlow.state).toBe('CheckHumidity');
+        done();
+    });
+
+    test('should transition from StartHeating to WaitTemp', () => {
+        controlFlow.StartHeating();
+        expect(controlFlow.state).toBe('WaitTemp');
+    });
+
+    test('should transition from StartCooling to WaitTemp', () => {
+        controlFlow.StartCooling();
+        expect(controlFlow.state).toBe('WaitTemp');
+    });
+
+    test('should transition from WaitTemp to CheckTemperature after 5 minutes', (done) => {
+        jest.useFakeTimers();
+        controlFlow.WaitTemp();
+        jest.advanceTimersByTime(300000); // 5 minutes
+        expect(controlFlow.state).toBe('CheckTemperature');
+        done();
+    });
+
+    test('should transition from SafetyMonitoring to ContinuousMonitor', () => {
+        controlFlow.SafetyMonitoring();
+        expect(controlFlow.state).toBe('ContinuousMonitor');
+    });
+
+    test('should transition from ContinuousMonitor to EmergencyShutdown when safety threshold is exceeded', () => {
+        controlFlow.ContinuousMonitor = jest.fn(() => controlFlow.transition('EmergencyShutdown'));
+        controlFlow.SafetyMonitoring();
+        expect(controlFlow.state).toBe('EmergencyShutdown');
+    });
+
+    test('should transition from ContinuousMonitor to EnvironmentCheck when all parameters are normal', () => {
+        controlFlow.ContinuousMonitor = jest.fn(() => controlFlow.transition('EnvironmentCheck'));
+        controlFlow.SafetyMonitoring();
+        expect(controlFlow.state).toBe('EnvironmentCheck');
+    });
+
+    test('should transition from EmergencyShutdown to StopAllSystems', () => {
+        controlFlow.EmergencyShutdown();
+        expect(controlFlow.state).toBe('StopAllSystems');
+    });
+
+    test('should transition from StopAllSystems to TriggerAlarm', () => {
+        controlFlow.StopAllSystems();
+        expect(controlFlow.state).toBe('TriggerAlarm');
+    });
+
+    test('should transition from TriggerAlarm to RequireManualReset', () => {
+        controlFlow.TriggerAlarm();
+        expect(controlFlow.state).toBe('RequireManualReset');
+    });
 });
