@@ -42,3 +42,21 @@ The Pico control system is an integral part of the Lotsofroom project. It is res
 ### Diagram
 
 The Pico control system diagram is defined in `pico-control-system.mermaid`.
+
+## Deployment
+
+To deploy the code to the Raspberry Pi Pico, follow these steps:
+
+1. Ensure you have the necessary dependencies installed. You can install them using the following commands:
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y python3-pip
+   pip3 install --upgrade esptool
+   ```
+
+2. Run the deployment script to upload the code to the Raspberry Pi Pico:
+   ```bash
+   ./deploy.sh
+   ```
+
+The deployment script will compile the code, upload it to the Raspberry Pi Pico, and configure the Pico to interface with the connected sensors and relays.
