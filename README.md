@@ -51,7 +51,7 @@ To deploy the code to the Raspberry Pi Pico, follow these steps:
    ```bash
    sudo apt-get update
    sudo apt-get install -y python3-pip
-   pip3 install --upgrade esptool
+   pip3 install --upgrade adafruit-ampy
    ```
 
 2. Run the deployment script to upload the code to the Raspberry Pi Pico:
@@ -59,4 +59,4 @@ To deploy the code to the Raspberry Pi Pico, follow these steps:
    ./deploy.sh
    ```
 
-The deployment script will compile the code, upload it to the Raspberry Pi Pico, and configure the Pico to interface with the connected sensors and relays.
+The deployment script will upload the code to the Raspberry Pi Pico and configure the Pico to interface with the connected sensors and relays.
